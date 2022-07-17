@@ -8,7 +8,7 @@
 
 static void printTree(struct HuffmanTree* root) {
     printf("%c\n", root->character);
-    if (root->left != NULL) {
+    if (root->left != NULL && root->right != NULL) {
         printf("left\n");
         printTree(root->left);
         printf("right\n");
@@ -16,8 +16,25 @@ static void printTree(struct HuffmanTree* root) {
     }
 }
 
+void free_tree(struct HuffmanTree* root) {
+    if(root->left != NULL) {
+        free_tree(root->left);
+        free_tree(root->right);
+    }
+
+    free(root);
+}
+
+//struct HuffmanTree* generateTree() {
+//    struct HuffmanTree* root = malloc(sizeof(struct HuffmanTree));
+//    root->left = malloc(sizeof(struct HuffmanTree));
+//    root->left->left = malloc(sizeof(struct HuffmanTree));
+//    root->left->left->left
+//    root->left->right = malloc(sizeof(struct HuffmanTree));
+//    root->right = malloc(sizeof(struct HuffmanTree));
+//}
+
 struct HuffmanTree* build_tree_naive(size_t len, struct HuffmanTree* nodes[len]){
-    if(len == 0) len = 256;
 
     struct HuffmanTree* root;
     struct HuffmanTree* temp;
@@ -133,15 +150,13 @@ struct fileCopy* huffman_encode(size_t len, const char data[len], int version) {
         switch (version) {
             case 1:
                 root = build_tree_naive(nb_chars, nodes);//Katyas tree builder
-                //printTree(root);
                 break;
             case 2:
                 root = buildTree(nb_chars, nodes);
-                //printTree(root);
                 break;
         }
         
-        //printTree(root); //TODO Remove
+        printTree(root); //TODO Remove
 
         char codes[256][nb_chars - 1];
         uint8_t codeLen[256];
@@ -169,6 +184,7 @@ struct fileCopy* huffman_encode(size_t len, const char data[len], int version) {
         file->len = (length + x) / 8;
         file->data = malloc(file->len * sizeof(char));
         closeBitWriter(writer, file->data);
+        free_tree(root);
         return file;
     }
 }
