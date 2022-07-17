@@ -42,7 +42,6 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
 
     unsigned nb_characters = readChar(reader);
 
-    unsigned tree_length = 10*nb_characters + 15;
     struct bitWriter* writer = generateBitWriter(len);
     char current_bit;
 
@@ -55,7 +54,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
             current_bit = readBit(reader);
         }
     } else {
-        struct node *root = malloc(sizeof(struct node));
+        /*struct node *root = malloc(sizeof(struct node));
         build_tree(root, reader);
         current_bit = readBit(reader);
         struct node *current_node;
@@ -73,7 +72,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
             }
         }
         writeChar(writer, current_node->value);
-        free_tree(root);
+        free_tree(root);*/
     }
 
     res->len = writer->fileSize;
