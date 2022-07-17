@@ -76,6 +76,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
     }
 
     res->len = writer->fileSize;
+    printf("%zu\n", res->len);
     res->data = malloc(res->len);
 
     closeBitReader(reader);
