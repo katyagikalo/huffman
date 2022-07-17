@@ -16,10 +16,10 @@ static void printTree(struct HuffmanTree* root) {
     }
 }
 
-void free_tree(struct HuffmanTree* root) {
+void free_tree1(struct HuffmanTree* root) {
     if(root->left != NULL) {
-        free_tree(root->left);
-        free_tree(root->right);
+        free_tree1(root->left);
+        free_tree1(root->right);
     }
 
     free(root);
@@ -184,7 +184,7 @@ struct fileCopy* huffman_encode(size_t len, const char data[len], int version) {
         file->len = (length + x) / 8;
         file->data = malloc(file->len * sizeof(char));
         closeBitWriter(writer, file->data);
-        free_tree(root);
+        free_tree1(root);
         return file;
     }
 }
