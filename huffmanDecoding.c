@@ -61,7 +61,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
 
         current_node = root;
 
-        /*while (current_bit != 'x') {
+        while (current_bit != 'x') {
             if (current_node->left == NULL) {
                 writeChar(writer, current_node->value);
                 current_node = root;
@@ -70,7 +70,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
                 else current_node = current_node->right;
                 current_bit = readBit(reader);
             }
-        }*/
+        }
         writeChar(writer, current_node->value);
         free_tree(root);
     }
