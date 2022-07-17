@@ -11,6 +11,6 @@ struct node {
     struct node* right;
 };
 
-void build_tree(struct node* root, struct bitReader* reader, unsigned tree_length);
+void build_tree(struct node* root, struct bitReader* reader);
 struct fileCopy* huffman_decode(size_t len, const char data[len]);
 #endif

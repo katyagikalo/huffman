@@ -133,11 +133,11 @@ struct fileCopy* huffman_encode(size_t len, const char data[len], int version) {
         switch (version) {
             case 1:
                 root = build_tree_naive(nb_chars, nodes);//Katyas tree builder
-                printTree(root);
+                //printTree(root);
                 break;
             case 2:
                 root = buildTree(nb_chars, nodes);
-                printTree(root);
+                //printTree(root);
                 break;
         }
         

@@ -12,28 +12,25 @@ void free_tree(struct node* root) {
     free(root);
 }
 
-void build_tree(struct node* root, struct bitReader* reader, unsigned tree_length) {
-    while (reader->bufferSize == 0 ? 8 * reader->bytesRead + 8 - reader->bufferSize < tree_length : 8 * reader->bytesRead < tree_length) {
-        char current = readBit(reader);
-        root->value = reader->bufferSize;
-        if(current == 1) {
-            root->value = readChar(reader);
-            return;
-        }
-        else if(current == 0) {
-            root->left = malloc(sizeof(struct node));
-            root->left->left = NULL;
-            root->left->right = NULL;
+void build_tree(struct node* root, struct bitReader* reader) {
+    char current = readBit(reader);
+    if(current == 1) {
+        root->value = readChar(reader);
+        return;
+    }
+    else if(current == 0) {
+        root->left = malloc(sizeof(struct node));
+        root->left->left = NULL;
+        root->left->right = NULL;
 
-            root->right = malloc(sizeof(struct node));
-            root->right->left = NULL;
-            root->right->right = NULL;
+        root->right = malloc(sizeof(struct node));
+        root->right->left = NULL;
+        root->right->right = NULL;
 
-            build_tree(root->left, reader, tree_length);
-            build_tree(root->right, reader, tree_length);
+        build_tree(root->left, reader);
+        build_tree(root->right, reader);
 
-            return;
-        }
+        return;
     }
 }
 
@@ -59,7 +56,7 @@ struct fileCopy* huffman_decode(size_t len, const char data[len]) {
         }
     } else {
         struct node *root = malloc(sizeof(struct node));
-        build_tree(root, reader, tree_length);
+        build_tree(root, reader);
         current_bit = readBit(reader);
         struct node *current_node;
 
